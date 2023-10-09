@@ -4,6 +4,7 @@ import ra.model.Singer;
 import ra.model.Song;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class MusicManagement {
@@ -76,7 +77,7 @@ public class MusicManagement {
     }
 
     private static void showSongsByName() {
-        Arrays.sort(songs, 0, indexSong, (b1, b2) -> b1.getSongName().compareTo(b2.getSongName()));
+        Arrays.sort(songs, 0, indexSong, Comparator.comparing(Song::getSongName));
         handleShowSong();
     }
 
@@ -93,7 +94,8 @@ public class MusicManagement {
         System.out.println("Kết quả tìm kiếm: ");
         for (int i = 0; i < indexSong; i++) {
             if (songs[i].getSinger().getSingerName().toLowerCase().contains(findText.toLowerCase())
-            || songs[i].getSinger().getGenre().toLowerCase().contains(findText.toLowerCase())) {
+            || songs[i].getSinger().getGenre().toLowerCase().contains(findText.toLowerCase())
+            || songs[i].getSongName().toLowerCase().contains(findText.toLowerCase())) {
                 songs[i].displayData();
             }
         }
