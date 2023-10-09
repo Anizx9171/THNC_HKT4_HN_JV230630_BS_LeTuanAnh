@@ -185,6 +185,7 @@ public class MusicManagement {
         System.out.println("Nhập số lượng bài hát muốn thêm:");
         int contSong = Integer.parseInt(scanner.nextLine());
             for (int i = 0; i < contSong; i++) {
+                System.out.println("Thêm bài hát" + (i+1));
                 System.out.println("Nhập id ca sĩ thể hiện");
                 int indicator = Integer.parseInt(scanner.nextLine());
                 boolean flag = false;
@@ -208,6 +209,8 @@ public class MusicManagement {
                     if (selected == 1){
                         handleAddSinger();
                         System.out.println("Tiếp tục tạo bài hát");
+                        handleAddSong();
+                        return;
                     }
                 }
             }
