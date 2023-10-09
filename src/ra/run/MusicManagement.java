@@ -4,7 +4,6 @@ import ra.model.Singer;
 import ra.model.Song;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class MusicManagement {
@@ -77,7 +76,7 @@ public class MusicManagement {
     }
 
     private static void showSongsByName() {
-        Arrays.sort(songs, 0, indexSong, Comparator.comparing(Song::getSongName));
+        Arrays.sort(songs, 0, indexSong, (b1, b2) -> b1.getSongName().compareTo(b2.getSongName()));
         handleShowSong();
     }
 
@@ -94,8 +93,7 @@ public class MusicManagement {
         System.out.println("Kết quả tìm kiếm: ");
         for (int i = 0; i < indexSong; i++) {
             if (songs[i].getSinger().getSingerName().toLowerCase().contains(findText.toLowerCase())
-            || songs[i].getSinger().getGenre().toLowerCase().contains(findText.toLowerCase())
-            || songs[i].getSongName().toLowerCase().contains(findText.toLowerCase())) {
+            || songs[i].getSinger().getGenre().toLowerCase().contains(findText.toLowerCase())) {
                 songs[i].displayData();
             }
         }
@@ -189,26 +187,28 @@ public class MusicManagement {
             for (int i = 0; i < contSong; i++) {
                 System.out.println("Nhập id ca sĩ thể hiện");
                 int indicator = Integer.parseInt(scanner.nextLine());
+                boolean flag = false;
                 for (int j = 0; j < indexSinger; j++) {
-                    if (singers[i].getSingerId() == indicator){
+                    if (singers[j].getSingerId() == indicator){
                         Song song = new Song();
                         song.inputData(scanner, singers[i]);
                         songs[indexSong++] = song;
                         System.out.println("Thêm bài hát thành công");
+                        flag = true;
                         break;
                     }
                 }
-                System.out.println("""
+                if (!flag){
+                    System.out.println("""
                     Ca sĩ không tồn tại, Tạo mới ca sĩ?
                     1. Có
                     2. Không
                     """);
-                int selected = Integer.parseInt(scanner.nextLine());
-                if (selected == 1){
-                    handleAddSinger();
-                    System.out.println("Tiếp tục tạo bài hát");
-                    handleAddSong();
-                    return;
+                    int selected = Integer.parseInt(scanner.nextLine());
+                    if (selected == 1){
+                        handleAddSinger();
+                        System.out.println("Tiếp tục tạo bài hát");
+                    }
                 }
             }
 
